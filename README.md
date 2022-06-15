@@ -6,12 +6,10 @@ Come run  madly until the infinity!</br>
 **Future Running** is infinity run game, where you can play infinitely!
 
 ## Screenshots
-<div aling="center" style="display: flex; flex-direction:column;">
-  <img src="/images/screen_1" alt="Screen 1" />
-  <img src="/images/screen_2" alt="Screen 2" />
-  <img src="/images/screen_3" alt="Screen 3" />
-  <img src="/images/screen_4" alt="Screen 4" />
-</div>
+  - ![Screen 1](/images/screen_1.png "Screen 1")
+  - ![Screen 2](/images/screen_2.png "Screen 2")
+  - ![Screen 3](/images/screen_3.png "Screen 3")
+  - ![Screen 4](/images/screen_4.png "Screen 4")
 
 ## 💻 Technologies
 
