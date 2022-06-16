@@ -24,12 +24,17 @@ public class PlayerController : MonoBehaviour
 
     private GameController gameController;
 
+    public BoxCollider2D boxRun;
+    public BoxCollider2D boxJump;
+
 
     void Start()
     {
         rigidbodyPlayer = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();        
         gameController = FindObjectOfType<GameController>() as GameController;
+        boxRun.enabled=true;
+        boxJump.enabled=false;
     }
 
     void FixedUpdate() {
@@ -46,9 +51,13 @@ public class PlayerController : MonoBehaviour
         
         if(grounded){
             isJumping = false;
+            boxRun.enabled = true;
+            boxJump.enabled = false;
             idAnimation = 0;
         }else{
             idAnimation = 1;
+            boxRun.enabled = false;
+            boxJump.enabled = true;
         }
         animatorController.SetInteger("id_animation", idAnimation);
         animatorController.SetBool("Grounded", grounded);
