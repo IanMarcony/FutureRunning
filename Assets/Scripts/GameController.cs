@@ -17,6 +17,11 @@ public enum GameState {
 
 public class GameController : MonoBehaviour
 {
+    private float curXBG;
+    private float curXFloor;
+    private int numberScore;
+    private int numberCards;
+    private float currentTime;
 
     [Header ("Settings general")]
 
@@ -25,34 +30,36 @@ public class GameController : MonoBehaviour
 	public GameState currentState;
 
 
-
     [Header ("Movement Background")]
 
-    private float curXBG;
     public MeshRenderer meshRendererBG;
 
     [Header ("Movement Floor")]
 
-    private float curXFloor;
-
     public float speedFloor=1;
     public TilemapRenderer tilemapRendererFloor;
 
+
+    [Header("UI Settings")]
+
     public TMP_Text numberTxt;
     public TMP_Text numberCardTxt;
-    private int numberScore;
-    private int numberCards;
-    private float currentTime;
     public float rateTime;
+    public GameObject panelOptions;
+    public GameObject panelHUD;
 
+    [Header("Characteres Database")]
 	public string[] spriteSheetName;
 	public int idPersonagem;
 	public int idPersonagemAtual;
 
-    public GameObject panelOptions;
-
+    [Header("Audios Settings")]
     public AudioClip[] soundsBackground;
     public AudioSource audioSource;
+    public AudioSource audiosEffectsSource;
+    public AudioClip soundSelect;
+    public AudioClip soundDied;
+    public AudioClip soundCollect;
 
 
     // Start is called before the first frame update
@@ -66,7 +73,7 @@ public class GameController : MonoBehaviour
         numberCardTxt.text = numberCards.ToString();
         numberTxt.text = numberScore.ToString();
         panelOptions.SetActive(false);
-
+        panelHUD.SetActive(true);
         int numRandom = new System.Random().Next(0, soundsBackground.Length-1);   
 
 
@@ -99,14 +106,6 @@ public class GameController : MonoBehaviour
        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-
-        
-    }
-
 
     public void changeState (GameState newState) {
 		currentState = newState;
@@ -129,24 +128,37 @@ public class GameController : MonoBehaviour
         changeState(GameState.GAMEOVER);
         PlayerPrefs.SetInt("score", numberScore);
         PlayerPrefs.SetInt("numberCards", numberCards);
+        audiosEffectsSource.PlayOneShot(soundDied);
         if( numberScore> PlayerPrefs.GetInt("score_record")){
             PlayerPrefs.SetInt("score_record", numberScore);
         }
+        panelHUD.SetActive(false);
         LoaderScene loaderScene = FindObjectOfType<LoaderScene>() as LoaderScene;
         loaderScene.LoadScene(2);
     }
 
+    public void exitGame(){
+        changeState(GameState.GAMEOVER);
+        panelHUD.SetActive(false);
+        audiosEffectsSource.PlayOneShot(soundSelect);
+        LoaderScene loaderScene = FindObjectOfType<LoaderScene>() as LoaderScene;
+        loaderScene.LoadScene(0);
+    }
+
     public void pauseGame(){
         changeState(GameState.PAUSE);
+        audiosEffectsSource.PlayOneShot(soundSelect);
         panelOptions.SetActive(true);
     }
 
     public void continueGame(){
         changeState(GameState.GAMEPLAY);
+        audiosEffectsSource.PlayOneShot(soundSelect);
         panelOptions.SetActive(false);
     }
 
     public void colectKey(){
+        audiosEffectsSource.PlayOneShot(soundCollect);
         numberCards+=1;
         numberCardTxt.text = numberCards.ToString();
     }

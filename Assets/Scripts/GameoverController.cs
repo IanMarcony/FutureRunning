@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameoverController : MonoBehaviour
 {
 
+    [Header("UI Settings")]
     public  TMP_Text scoreNumber;
     public  TMP_Text scoreRecordNumber;
+
+    [Header("Audio Settings")]
+
+    public AudioClip soundSelect;
+    public AudioSource audioEffectSource;
 
 
     // Start is called before the first frame update
@@ -22,6 +27,8 @@ public class GameoverController : MonoBehaviour
 
     public void backToHome(){
         Time.timeScale = 1;
-        SceneManager.LoadScene("Home");
+        audioEffectSource.PlayOneShot(soundSelect);
+        LoaderScene loaderScene = FindObjectOfType<LoaderScene>() as LoaderScene;
+        loaderScene.LoadScene(0);
     }
 }

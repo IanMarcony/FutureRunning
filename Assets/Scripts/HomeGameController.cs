@@ -13,13 +13,14 @@ public class HomeGameController : MonoBehaviour
     public float speedGame;
 
     private float curXBG;
+    public MeshRenderer  meshRendererBG;
 
-    [SerializeField]
-    private MeshRenderer  meshRendererBG;
-
+    [Header("UI Settings")]
     public TMP_Text numberCardTxt;
     public TMP_Text numberCardPayTxt;
 
+
+    [Header("Shop Settings")]
     public int[] valuesToPay;
     public GameObject[] buttonsToPay;
 
@@ -28,6 +29,10 @@ public class HomeGameController : MonoBehaviour
 
     private ButtonsBought buttonsBought;
 
+    [Header("Audios Settings")]
+    public AudioSource audiosEffectSource;
+    public AudioClip soundBuy;
+    public AudioClip soundSelect;
 
     // Start is called before the first frame update
     void Start()
@@ -65,10 +70,8 @@ public class HomeGameController : MonoBehaviour
        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void playClickButton(AudioClip audioClip){
+        audiosEffectSource.PlayOneShot(audioClip);
     }
 
     public void openMenu(){
@@ -97,6 +100,8 @@ public class HomeGameController : MonoBehaviour
 
            buttonsToPay[position].GetComponent<SettingsButton>().isBought = true;
 
+           audiosEffectSource.PlayOneShot(soundBuy);
+
            buttonsBought.buttons.Add(new ButtonToPay(position));
 
            PlayerPrefs.SetString("ButtonsToPay", JsonUtility.ToJson(buttonsBought));
@@ -106,10 +111,10 @@ public class HomeGameController : MonoBehaviour
     }
 
     public void selectCharacter(int position){
-        if(!buttonsToPay[position].GetComponent<SettingsButton>().isBought)return;
-
+        if(!buttonsToPay[position].GetComponent<SettingsButton>().isBought&&position>0)return;
+        
+        audiosEffectSource.PlayOneShot(soundSelect);
         PlayerPrefs.SetInt("idPersonagem", position);
-
     }
 
 
