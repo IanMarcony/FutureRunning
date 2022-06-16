@@ -123,3 +123,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedGame: -4.5
+  growthRate: 0.01
+  eachWhatPoint: 6
